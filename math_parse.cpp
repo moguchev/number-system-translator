@@ -1,3 +1,4 @@
+// РџР°СЂСЃРµСЂ РјР°С‚РµРјР°С‚РёС‡РµСЃРєРёС… РІС‹СЂР°Р¶РµРЅРёР№: СЂРµРєСѓСЂСЃРёРІРЅС‹Р№ РѕРґРЅРѕРїСЂРѕС…РѕРґРЅС‹Р№ РїР°СЂСЃРµСЂ
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,19 +7,19 @@
 #include <ctype.h>
 #include <malloc.h>
 
-int* getToken(char*); //Получает лексему из строки
-void pars(char*); //Точка входа анализатора
-int fSum(double*); //Обрабатывает сложение и вычитание
-int fMulti(double*); //Обрабатывает умножение и деление
-int fExp(double*); //Возведение в степень
-int fUnary(double*); //Обработка унарных операторов
-int fBrack(double*); //Обрабатывает выражение в скобках
-int fAtom(double*); //Получает значение числа
+int* getToken(char*); //РџРѕР»СѓС‡Р°РµС‚ Р»РµРєСЃРµРјСѓ РёР· СЃС‚СЂРѕРєРё
+void pars(char*); //РўРѕС‡РєР° РІС…РѕРґР° Р°РЅР°Р»РёР·Р°С‚РѕСЂР°
+int fSum(double*); //РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ СЃР»РѕР¶РµРЅРёРµ Рё РІС‹С‡РёС‚Р°РЅРёРµ
+int fMulti(double*); //РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ СѓРјРЅРѕР¶РµРЅРёРµ Рё РґРµР»РµРЅРёРµ
+int fExp(double*); //Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ
+int fUnary(double*); //РћР±СЂР°Р±РѕС‚РєР° СѓРЅР°СЂРЅС‹С… РѕРїРµСЂР°С‚РѕСЂРѕРІ
+int fBrack(double*); //РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РІС‹СЂР°Р¶РµРЅРёРµ РІ СЃРєРѕР±РєР°С…
+int fAtom(double*); //РџРѕР»СѓС‡Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ С‡РёСЃР»Р°
 
-char *expr; //Указатель на обрабатываемую строку
-char token[80]; //Лексема
-enum { Empty, Operator, Variable, Number } type; //Тип лексемы
-enum { No, Syntax, Zero } error; //Значение ошибки
+char *expr; //РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјСѓСЋ СЃС‚СЂРѕРєСѓ
+char token[80]; //Р›РµРєСЃРµРјР°
+enum { Empty, Operator, Variable, Number } type; //РўРёРї Р»РµРєСЃРµРјС‹
+enum { No, Syntax, Zero } error; //Р—РЅР°С‡РµРЅРёРµ РѕС€РёР±РєРё
 
 void pars(char *line)
 {
@@ -49,12 +50,12 @@ int* getToken(char *expr)
     static int i = 0;
     type = Empty;
 
-    if (expr[i] == '\0') //Если конец выражения
+    if (expr[i] == '\0') //Р•СЃР»Рё РєРѕРЅРµС† РІС‹СЂР°Р¶РµРЅРёСЏ
     {
         i = 0;
         return 0;
     }
-    while (isspace(expr[i])) i++; //Пропустить разделительные символы
+    while (isspace(expr[i])) i++; //РџСЂРѕРїСѓСЃС‚РёС‚СЊ СЂР°Р·РґРµР»РёС‚РµР»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹
 
     if (strchr("+-*/%^=()", expr[i]))
     {
@@ -109,12 +110,12 @@ int fMulti(double *anw)
 {
     char op;
     double temp;
-    if (fExp(anw)) return 1; //Ошибка
+    if (fExp(anw)) return 1; //РћС€РёР±РєР°
 
     while ((op = *token) == '*' || op == '/' || op == '%')
     {
         getToken(expr);
-        if (fExp(&temp)) return 1; //Ошибка
+        if (fExp(&temp)) return 1; //РћС€РёР±РєР°
         switch (op)
         {
         case '*':
@@ -140,12 +141,12 @@ int fMulti(double *anw)
 int fExp(double *anw)
 {
     double temp;
-    if (fUnary(anw)) return 1; //Ошибка
+    if (fUnary(anw)) return 1; //РћС€РёР±РєР°
 
     while (*token == '^')
     {
         getToken(expr);
-        if (fUnary(&temp)) return 1; //Ошибка
+        if (fUnary(&temp)) return 1; //РћС€РёР±РєР°
         *anw = pow(*anw, temp);
     }
 
@@ -160,7 +161,7 @@ int fUnary(double *anw)
         op = *token;
         getToken(expr);
     }
-    if (fBrack(anw)) return 1; //Ошибка
+    if (fBrack(anw)) return 1; //РћС€РёР±РєР°
 
     if (op == '-') *anw = -(*anw);
 
@@ -182,7 +183,7 @@ int fBrack(double *anw)
         getToken(expr);
     }
     else
-        if (fAtom(anw)) return 1; //Ошибка
+        if (fAtom(anw)) return 1; //РћС€РёР±РєР°
 
     return 0;
 }
