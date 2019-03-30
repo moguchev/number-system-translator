@@ -50,7 +50,7 @@ typedef struct stack {
     struct stack *next;
 } stack_t;
 
-/* Пpототипы функций */
+/* РџpРѕС‚РѕС‚РёРїС‹ С„СѓРЅРєС†РёР№ */
 void error_msg();
 void print_result(int v);
 bool is_operator(char c);
@@ -59,31 +59,31 @@ bool is_possible(char c);
 bool has_operators(const char *expr);
 bool is_right_format(const char *str);
 
-/* работа со стэком*/
+/* СЂР°Р±РѕС‚Р° СЃРѕ СЃС‚СЌРєРѕРј*/
 stack_t *push(stack_t *head, char c);
 char pop(stack_t **head);
 int get_priority(char c);
 
-/* работа со строками*/
-/* замена подстроки строкой*/
+/* СЂР°Р±РѕС‚Р° СЃРѕ СЃС‚СЂРѕРєР°РјРё*/
+/* Р·Р°РјРµРЅР° РїРѕРґСЃС‚СЂРѕРєРё СЃС‚СЂРѕРєРѕР№*/
 char *str_replace(char *dst, int num, const char *str,
     const char *orig, const char *rep);
-/* удаление выбранного символа*/
+/* СѓРґР°Р»РµРЅРёРµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЃРёРјРІРѕР»Р°*/
 size_t remove_ch(char *str, char c);
 
-/* работа с листом*/
+/* СЂР°Р±РѕС‚Р° СЃ Р»РёСЃС‚РѕРј*/
 list_t *create_list();
 void list_push(list_t *lt, char *name, bool value);
 int get_value(list_t *lt, char *name);
 void list_pop(list_t *lt);
 
-/* парсинг <name>=True|False */
+/* РїР°СЂСЃРёРЅРі <name>=True|False */
 int analyse_and_add(char *expr, list_t *base);
-/* перевод выражения к виду (!1&0)|1+1 */
+/* РїРµСЂРµРІРѕРґ РІС‹СЂР°Р¶РµРЅРёСЏ Рє РІРёРґСѓ (!1&0)|1+1 */
 int convert(char *expr, list_t *base);
-/* перевод в обратную польскую нотацию*/
+/* РїРµСЂРµРІРѕРґ РІ РѕР±СЂР°С‚РЅСѓСЋ РїРѕР»СЊСЃРєСѓСЋ РЅРѕС‚Р°С†РёСЋ*/
 char *to_rpn(const char *expr, list_t *base);
-/* вычисление */
+/* РІС‹С‡РёСЃР»РµРЅРёРµ */
 int calculate(char *expr, list_t *base);
 
 
@@ -100,7 +100,7 @@ int main()
             break;
         }
 
-        // Проверка на правильность задания данных <name>=True|False
+        // РџСЂРѕРІРµСЂРєР° РЅР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РґР°РЅРёСЏ РґР°РЅРЅС‹С… <name>=True|False
         int status = analyse_and_add(buf, list);
         if (status == WRONG_FORMAT) {
             error_msg();
@@ -168,7 +168,7 @@ bool has_operators(const char *expr)
 bool is_right_format(const char *str)
 {
     bool only_small = false;
-    // проверка на маленькие латинские буквы
+    // РїСЂРѕРІРµСЂРєР° РЅР° РјР°Р»РµРЅСЊРєРёРµ Р»Р°С‚РёРЅСЃРєРёРµ Р±СѓРєРІС‹
     for (size_t i = 0; i < strlen(str); ++i) {
         if (str[i] >= 'a' && str[i] <= 'z') {
             only_small = true;
@@ -179,7 +179,7 @@ bool is_right_format(const char *str)
         }
     }
 
-    // проверка на запрещенные имена and or not xor;
+    // РїСЂРѕРІРµСЂРєР° РЅР° Р·Р°РїСЂРµС‰РµРЅРЅС‹Рµ РёРјРµРЅР° and or not xor;
     if (only_small) {
         for (size_t k = 0; RESERVED[k]; ++k) {
             if (strcmp(str, RESERVED[k]) == 0)
@@ -190,46 +190,46 @@ bool is_right_format(const char *str)
     return only_small;
 }
 
-/* Функция push записывает на стек (на веpшину котоpого указывает HEAD)
-   символ a . Возвpащает указатель на новую веpшину стека */
+/* Р¤СѓРЅРєС†РёСЏ push Р·Р°РїРёСЃС‹РІР°РµС‚ РЅР° СЃС‚РµРє (РЅР° РІРµpС€РёРЅСѓ РєРѕС‚РѕpРѕРіРѕ СѓРєР°Р·С‹РІР°РµС‚ HEAD)
+   СЃРёРјРІРѕР» a . Р’РѕР·РІpР°С‰Р°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅРѕРІСѓСЋ РІРµpС€РёРЅСѓ СЃС‚РµРєР° */
 stack_t *push(stack_t *head, char c)
 {
     stack_t *ptr = (stack_t*)malloc(sizeof(stack_t));
     if (ptr == NULL) {
-        /* Если её нет - выход */
+        /* Р•СЃР»Рё РµС‘ РЅРµС‚ - РІС‹С…РѕРґ */
         error_msg();
         return NULL;
     }
-    /* Инициализация созданной веpшины */
+    /* РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃРѕР·РґР°РЅРЅРѕР№ РІРµpС€РёРЅС‹ */
     ptr->c = c;
-    /* и подключение её к стеку */
+    /* Рё РїРѕРґРєР»СЋС‡РµРЅРёРµ РµС‘ Рє СЃС‚РµРєСѓ */
     ptr->next = head;
-    /* PTR -новая веpшина стека */
+    /* PTR -РЅРѕРІР°СЏ РІРµpС€РёРЅР° СЃС‚РµРєР° */
     return ptr;
 }
 
-/* Функция pop удаляет символ с веpшины стека.
-   Возвpащает удаляемый символ.
-   Изменяет указатель на веpшину стека */
+/* Р¤СѓРЅРєС†РёСЏ pop СѓРґР°Р»СЏРµС‚ СЃРёРјРІРѕР» СЃ РІРµpС€РёРЅС‹ СЃС‚РµРєР°.
+   Р’РѕР·РІpР°С‰Р°РµС‚ СѓРґР°Р»СЏРµРјС‹Р№ СЃРёРјРІРѕР».
+   РР·РјРµРЅСЏРµС‚ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РІРµpС€РёРЅСѓ СЃС‚РµРєР° */
 char pop(stack_t **head)
 {
     stack_t *ptr = NULL;
     char el;
-    /* Если стек пуст,  возвpащается '\0' */
+    /* Р•СЃР»Рё СЃС‚РµРє РїСѓСЃС‚,  РІРѕР·РІpР°С‰Р°РµС‚СЃСЏ '\0' */
     if (*head == NULL)
         return '\0';
-    /* в PTR - адpес веpшины стека */
+    /* РІ PTR - Р°РґpРµСЃ РІРµpС€РёРЅС‹ СЃС‚РµРєР° */
     ptr = *head;
     el = ptr->c;
-    /* Изменяем адpес веpшины стека */
+    /* РР·РјРµРЅСЏРµРј Р°РґpРµСЃ РІРµpС€РёРЅС‹ СЃС‚РµРєР° */
     *head = ptr->next;
-    /* Освобождение памяти */
+    /* РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё */
     free(ptr);
-    /* Возвpат символа с веpшины стека */
+    /* Р’РѕР·РІpР°С‚ СЃРёРјРІРѕР»Р° СЃ РІРµpС€РёРЅС‹ СЃС‚РµРєР° */
     return el;
 }
 
-/* Функция  возвpащает пpиоpитет  опеpации */
+/* Р¤СѓРЅРєС†РёСЏ  РІРѕР·РІpР°С‰Р°РµС‚ РїpРёРѕpРёС‚РµС‚  РѕРїРµpР°С†РёРё */
 int get_priority(char c)
 {
     switch (c)
@@ -349,13 +349,13 @@ void list_pop(list_t *lt)
     }
 }
 
-// Запись в лист пары <name>,  <True|False>
+// Р—Р°РїРёСЃСЊ РІ Р»РёСЃС‚ РїР°СЂС‹ <name>,  <True|False>
 int analyse_and_add(char *expr, list_t *base)
 {
     if (!expr)
         return ERROR;
 
-    // если не <name>=True|False
+    // РµСЃР»Рё РЅРµ <name>=True|False
     char* pos = strchr(expr, EQUAL);
     char* end = strchr(expr, SEMICOLON);
     if (pos == NULL || end == NULL)
@@ -365,7 +365,7 @@ int analyse_and_add(char *expr, list_t *base)
     pos = strchr(expr, EQUAL);
     end = strchr(expr, SEMICOLON);
 
-    /* Записываем имя*/
+    /* Р—Р°РїРёСЃС‹РІР°РµРј РёРјСЏ*/
     size_t len_n = pos - expr;
     char* name = (char*)calloc(len_n + 1, sizeof(char));
     if (!name) {
@@ -378,7 +378,7 @@ int analyse_and_add(char *expr, list_t *base)
         return WRONG_FORMAT;
     }
 
-    /* Получаем значение*/
+    /* РџРѕР»СѓС‡Р°РµРј Р·РЅР°С‡РµРЅРёРµ*/
     size_t len_v = end - pos;
     char* value = (char*) calloc(len_v, sizeof(char));
     if (!value) {
@@ -387,7 +387,7 @@ int analyse_and_add(char *expr, list_t *base)
     }
     memmove(value, pos + 1, sizeof(char) * (len_v-1));
 
-    /* Определяем True|False */
+    /* РћРїСЂРµРґРµР»СЏРµРј True|False */
     bool v;
     if (strcmp(value, TRUE) == 0)
         v = true;
@@ -400,7 +400,7 @@ int analyse_and_add(char *expr, list_t *base)
         return WRONG_FORMAT;
     }
 
-    /* Записываем в лист ключ-значение*/
+    /* Р—Р°РїРёСЃС‹РІР°РµРј РІ Р»РёСЃС‚ РєР»СЋС‡-Р·РЅР°С‡РµРЅРёРµ*/
     list_push(base, name, v);
     free(value);
     return v;
@@ -413,7 +413,7 @@ int convert(char *expr, list_t *base)
 
     char temp[BUFFER_SIZE];
 
-    /* Замена ключевых слов на соответсвующие символы */
+    /* Р—Р°РјРµРЅР° РєР»СЋС‡РµРІС‹С… СЃР»РѕРІ РЅР° СЃРѕРѕС‚РІРµС‚СЃРІСѓСЋС‰РёРµ СЃРёРјРІРѕР»С‹ */
     size_t i = 0;
     for (i = 0; RESERVED[i] && SERVICE_CHRS[i]; ++i) {
         if(str_replace(temp, sizeof(temp) - 1, expr, RESERVED[i], SERVICE_CHRS[i]) == NULL)
@@ -422,7 +422,7 @@ int convert(char *expr, list_t *base)
             strcpy(expr, temp);
     }
     
-    /* Замена переменных на их значение */
+    /* Р—Р°РјРµРЅР° РїРµСЂРµРјРµРЅРЅС‹С… РЅР° РёС… Р·РЅР°С‡РµРЅРёРµ */
     for (i = 0; expr[i]; ++i) {
         if (is_possible(expr[i])) {
             size_t j = i;
@@ -455,10 +455,10 @@ int convert(char *expr, list_t *base)
         }
     }
 
-    /* удаление пробелов*/
+    /* СѓРґР°Р»РµРЅРёРµ РїСЂРѕР±РµР»РѕРІ*/
     remove_ch(expr, SPACE);
 
-    /* Успех*/
+    /* РЈСЃРїРµС…*/
     return 0;
 }
 
@@ -471,61 +471,61 @@ char* to_rpn(const char *expr, list_t *base)
     int k, point;
 
     k = point = 0;
-    /* Повтоpяем , пока не дойдем до конца */
+    /* РџРѕРІС‚РѕpСЏРµРј , РїРѕРєР° РЅРµ РґРѕР№РґРµРј РґРѕ РєРѕРЅС†Р° */
     while (expr[k])
     {
-        /* Если очеpедной символ - ')' */
+        /* Р•СЃР»Рё РѕС‡РµpРµРґРЅРѕР№ СЃРёРјРІРѕР» - ')' */
         if (expr[k] == RIGHT_BRACKET)
-            /* то выталкиваем из стека в выходную стpоку */
+            /* С‚Рѕ РІС‹С‚Р°Р»РєРёРІР°РµРј РёР· СЃС‚РµРєР° РІ РІС‹С…РѕРґРЅСѓСЋ СЃС‚pРѕРєСѓ */
         {
-            /* все знаки опеpаций до ближайшей */
+            /* РІСЃРµ Р·РЅР°РєРё РѕРїРµpР°С†РёР№ РґРѕ Р±Р»РёР¶Р°Р№С€РµР№ */
             while ((operators->c) != LEFT_BRACKET)
-                /* откpывающей скобки */
+                /* РѕС‚РєpС‹РІР°СЋС‰РµР№ СЃРєРѕР±РєРё */
                 expr_in_rpn_format[point++] = pop(&operators);
-            /* Удаляем из стека саму откpывающую скобку */
+            /* РЈРґР°Р»СЏРµРј РёР· СЃС‚РµРєР° СЃР°РјСѓ РѕС‚РєpС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ */
             pop(&operators);
         }
-        /* Если очеpедной символ - значение , то */
+        /* Р•СЃР»Рё РѕС‡РµpРµРґРЅРѕР№ СЃРёРјРІРѕР» - Р·РЅР°С‡РµРЅРёРµ , С‚Рѕ */
         if (is_value(expr[k]))
-            /* пеpеписываем её в выходную стpоку */
+            /* РїРµpРµРїРёСЃС‹РІР°РµРј РµС‘ РІ РІС‹С…РѕРґРЅСѓСЋ СЃС‚pРѕРєСѓ */
             expr_in_rpn_format[point++] = expr[k];
-        /* Если очеpедной символ - '(' , то */
+        /* Р•СЃР»Рё РѕС‡РµpРµРґРЅРѕР№ СЃРёРјРІРѕР» - '(' , С‚Рѕ */
         if (expr[k] == LEFT_BRACKET)
-            /* заталкиваем её в стек */
+            /* Р·Р°С‚Р°Р»РєРёРІР°РµРј РµС‘ РІ СЃС‚РµРє */
             operators = push(operators, LEFT_BRACKET);
         if (is_operator(expr[k]))
-            /* Если следующий символ - знак опеpации , то: */
+            /* Р•СЃР»Рё СЃР»РµРґСѓСЋС‰РёР№ СЃРёРјРІРѕР» - Р·РЅР°Рє РѕРїРµpР°С†РёРё , С‚Рѕ: */
         {
-            /* если стек пуст */
+            /* РµСЃР»Рё СЃС‚РµРє РїСѓСЃС‚ */
             if (operators == NULL)
-                /* записываем в него опеpацию */
+                /* Р·Р°РїРёСЃС‹РІР°РµРј РІ РЅРµРіРѕ РѕРїРµpР°С†РёСЋ */
                 operators = push(operators, expr[k]);
-            /* если не пуст */
+            /* РµСЃР»Рё РЅРµ РїСѓСЃС‚ */
             else
-                /* если пpиоpитет поступившей опеpации больше
-                                пpиоpитета опеpации на веpшине стека */
+                /* РµСЃР»Рё РїpРёРѕpРёС‚РµС‚ РїРѕСЃС‚СѓРїРёРІС€РµР№ РѕРїРµpР°С†РёРё Р±РѕР»СЊС€Рµ
+                                РїpРёРѕpРёС‚РµС‚Р° РѕРїРµpР°С†РёРё РЅР° РІРµpС€РёРЅРµ СЃС‚РµРєР° */
                 if (get_priority(operators->c) < get_priority(expr[k]))
-                    /* заталкиваем поступившую опеpацию на стек */
+                    /* Р·Р°С‚Р°Р»РєРёРІР°РµРј РїРѕСЃС‚СѓРїРёРІС€СѓСЋ РѕРїРµpР°С†РёСЋ РЅР° СЃС‚РµРє */
                     operators = push(operators, expr[k]);
-            /* если пpиоpитет меньше */
+            /* РµСЃР»Рё РїpРёРѕpРёС‚РµС‚ РјРµРЅСЊС€Рµ */
                 else
                 {
                     while ((operators != NULL) && (get_priority(operators->c) >= get_priority(expr[k])))
-                        /* пеpеписываем в выходную стpоку все опеpации
-                                            с большим или pавным пpиоpитетом */
+                        /* РїРµpРµРїРёСЃС‹РІР°РµРј РІ РІС‹С…РѕРґРЅСѓСЋ СЃС‚pРѕРєСѓ РІСЃРµ РѕРїРµpР°С†РёРё
+                                            СЃ Р±РѕР»СЊС€РёРј РёР»Рё pР°РІРЅС‹Рј РїpРёРѕpРёС‚РµС‚РѕРј */
                         expr_in_rpn_format[point++] = pop(&operators);
-                    /* записываем в стек поступившую  опеpацию */
+                    /* Р·Р°РїРёСЃС‹РІР°РµРј РІ СЃС‚РµРє РїРѕСЃС‚СѓРїРёРІС€СѓСЋ  РѕРїРµpР°С†РёСЋ */
                     operators = push(operators, expr[k]);
                 }
         }
-        /* Пеpеход к следующему символу входной стpоки */
+        /* РџРµpРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ СЃРёРјРІРѕР»Сѓ РІС…РѕРґРЅРѕР№ СЃС‚pРѕРєРё */
         k++;
     }
-    /* после pассмотpения всего выpажения */
+    /* РїРѕСЃР»Рµ pР°СЃСЃРјРѕС‚pРµРЅРёСЏ РІСЃРµРіРѕ РІС‹pР°Р¶РµРЅРёСЏ */
     while (operators != NULL)
-        /* Пеpеписываем все опеpации из */
+        /* РџРµpРµРїРёСЃС‹РІР°РµРј РІСЃРµ РѕРїРµpР°С†РёРё РёР· */
         expr_in_rpn_format[point++] = pop(&operators);
-    /* стека в выходную стpоку */
+    /* СЃС‚РµРєР° РІ РІС‹С…РѕРґРЅСѓСЋ СЃС‚pРѕРєСѓ */
     expr_in_rpn_format[point] = '\0';
 
     return expr_in_rpn_format;
@@ -540,20 +540,20 @@ int calculate(char *expr, list_t *base)
     if (outstring == NULL)
         return ERROR;
 
-    // Если нет операторов и больше 1 переменной
+    // Р•СЃР»Рё РЅРµС‚ РѕРїРµСЂР°С‚РѕСЂРѕРІ Рё Р±РѕР»СЊС€Рµ 1 РїРµСЂРµРјРµРЅРЅРѕР№
     if (strlen(outstring) > 1 && !has_operators(outstring))  {
         free(outstring);
         return ERROR;
     }
     
-    /* Выделене стэка для операций вычисления */
+    /* Р’С‹РґРµР»РµРЅРµ СЃС‚СЌРєР° РґР»СЏ РѕРїРµСЂР°С†РёР№ РІС‹С‡РёСЃР»РµРЅРёСЏ */
     int *stack = (int*)malloc(strlen(expr)*sizeof(int));
     if (stack == NULL) {
         free(outstring);
         return ERROR;
     }
-    // sp = индекс ячейки, куда будет push-иться очередное число
-    int sp = 0;      // (sp-1) вершиной стека
+    // sp = РёРЅРґРµРєСЃ СЏС‡РµР№РєРё, РєСѓРґР° Р±СѓРґРµС‚ push-РёС‚СЊСЃСЏ РѕС‡РµСЂРµРґРЅРѕРµ С‡РёСЃР»Рѕ
+    int sp = 0;      // (sp-1) РІРµСЂС€РёРЅРѕР№ СЃС‚РµРєР°
     for (size_t k = 0; outstring[k]; ++k) {
         char c = outstring[k];
         switch (c) {
