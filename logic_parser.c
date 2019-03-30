@@ -1,3 +1,4 @@
+// парсер логических выражений вида OR NOT AND XOR, с возможным заданием переменных  TRUE | FALSE
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
